@@ -15,6 +15,14 @@ app.use(bodyParser.json());
 require("./app/routing/apiRoutes.js")(app);
 require("./app/routing/htmlRoutes.js")(app);
 
+app.post("/api/friends", function(req, res){
+    var newEntry = req.body;
+
+    friendData.push(newEntry);
+
+    res.json(newEntry);
+});
+
 // run server here
 app.listen(PORT, function() {
     console.log("Server listening on: http://localhost:" + PORT);
