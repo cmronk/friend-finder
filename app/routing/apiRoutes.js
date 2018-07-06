@@ -1,9 +1,6 @@
 // we'll need to load data from our user here
 
 var friendData = require("../data/friends.js");
-
-
-// ____________________________________________________________
 // routing
 
 module.exports = function(app) {
@@ -15,12 +12,28 @@ module.exports = function(app) {
 
     // POST requests
     app.post("/api/friends", function(req, res){
-        if (friendData.length < 10){
-        newEntry.push(req.body);
-        res.json(true);
-    } else {
-        friendData.push(req.body);
-        res.json(false);
-    }
+        var newEntry = req.body;
+
+        var matchingScores = newEntry.scores;
+
+        var matchedName = "";
+        var matchedPic = "";
+        var comparison = 100;
+
+        for (var i = 0; i < friendData.length; i++) {
+            var difference = 0;
+            for (var j = 0; j < matchingScores.length; j++) {
+                difference += Math.abs(friendData[i].scores[j] - matchingScores[j]);
+            }
+        if (difference < comparison) {
+            comparison = difference;
+            matchedName = friendData[i].name;
+            matchedPic = friendData[i].photo;
+        }
+        }
+
+        friendData.push(newEntry);
+
+        res.json({status: "OK", matchedName: matchedName, matchedPic: matchedPic});
     });
 }

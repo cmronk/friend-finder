@@ -9,9 +9,11 @@
     <!-- bootstrap link -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
         crossorigin="anonymous">
+    <!-- jquery -->
+    <script src="https://code.jquery.com/jquery.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
         crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+    <!-- <script src="//code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script> -->
 </head>
 
 <body>
@@ -193,7 +195,7 @@
     </div>
 
     <!-- modal -->
-    <div class="modal" tabindex="-1" role="dialog">
+    <div class="modal fade" id="results" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -203,7 +205,8 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p></p>
+                    <h3 id="matchedName"></h3>
+                    <img id="matchedPic" src="">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -233,33 +236,31 @@
                     $("#inputState10").val()
                 ]
             };
+            // clears the survey
+                $("#name").val(""),
+                $("#pictureUrl").val(""),
+                $("#inputState1").val(""),
+                $("#inputState2").val(""),
+                $("#inputState3").val(""),
+                $("#inputState4").val(""),
+                $("#inputState5").val(""),
+                $("#inputState6").val(""),
+                $("#inputState7").val(""),
+                $("#inputState8").val(""),
+                $("#inputState9").val(""),
+                $("#inputState10").val("")
+
             console.log(newEntry);
             $.post("/api/friends", newEntry,
                 function (data) {
+                    $("#matchedName").text(data.matchedName);
+                    $("#matchedPic").attr("src", data.matchedPic);
 
-                    if (data) {
-                        alert("works");
-                    } else {
-                        alert("Something went wrong fam...");
-                    }
-
-                    // clears the survey
-                    $("#name").val(""),
-                        $("#pictureUrl").val(""),
-                        $("#inputState1").val(""),
-                        $("#inputState2").val(""),
-                        $("#inputState3").val(""),
-                        $("#inputState4").val(""),
-                        $("#inputState5").val(""),
-                        $("#inputState6").val(""),
-                        $("#inputState7").val(""),
-                        $("#inputState8").val(""),
-                        $("#inputState9").val(""),
-                        $("#inputState10").val("")
-
+                    $("#results").modal("toggle");
                 });
-
         });
+
+
     </script>
 </body>
 
