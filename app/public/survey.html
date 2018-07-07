@@ -246,7 +246,7 @@
 
             var newEntry = {
                 name: $("#name").val().trim(),
-                picture: $("#pictureUrl").val().trim(),
+                photo: $("#pictureUrl").val().trim(),
                 scores: [
                     $("#question1").val(),
                     $("#question2").val(),
@@ -269,10 +269,10 @@
             };
 
             // validating if everything is filled out
-            if (newEntry.name.length < 1 || newEntry.picture.length < 1 || allAnswered === false) {
+            if (newEntry.name.length < 1 || newEntry.photo.length < 1 || allAnswered === false) {
                 alert("Please make sure you answer all of the questions!");
             } else {
-                
+
             // clears the survey
             $("#name").val(""),
             $("#pictureUrl").val(""),
