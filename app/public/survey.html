@@ -33,11 +33,10 @@
             border: 2px solid gold;
             padding-top: 5%;
         }
-
+        
         .quote {
             text-align: right;
         }
-
         ;
     </style>
 </head>
@@ -45,9 +44,9 @@
 <body>
     <div class="container">
         <div class="quote">
-            <h2>To the world, you may be one person; but to one person, you may be the world.</h2>
-            <p> -Dr. Suess</p>
-        </div>
+        <h2>To the world, you may be one person; but to one person, you may be the world.</h2>
+        <p> -Dr. Suess</p>
+    </div>
         <hr>
 
         <h3>About you, it's true! </h3>
@@ -68,13 +67,12 @@
             <hr>
 
             <h2>Survey questions below</h2>
-            <hr>
             <h4>Question 1</h4>
             <p>You love green eggs and ham.</p>
             <div class="form-group col-md-4">
                 <label for="question1">On a scale of 1-5</label>
                 <select id="question1" class="form-control">
-                    <option selected>Choose...</option>
+                    <option selected value="">Choose...</option>
                     <option value="1">1 (Strongly Disagree)</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -88,7 +86,7 @@
             <div class="form-group col-md-4">
                 <label for="question2">On a scale of 1-5</label>
                 <select id="question2" class="form-control">
-                    <option selected>Choose...</option>
+                    <option selected value="">Choose...</option>
                     <option value="1">1 (Strongly Disagree)</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -102,7 +100,7 @@
             <div class="form-group col-md-4">
                 <label for="question3">On a scale of 1-5</label>
                 <select id="question3" class="form-control">
-                    <option selected>Choose...</option>
+                    <option selected value="">Choose...</option>
                     <option value="1">1 (Strongly Disagree)</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -116,7 +114,7 @@
             <div class="form-group col-md-4">
                 <label for="question4">On a scale of 1-5</label>
                 <select id="question4" class="form-control">
-                    <option selected>Choose...</option>
+                    <option selected value="">Choose...</option>
                     <option value="1">1 (Strongly Disagree)</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -130,7 +128,7 @@
             <div class="form-group col-md-4">
                 <label for="question5">On a scale of 1-5</label>
                 <select id="question5" class="form-control">
-                    <option selected>Choose...</option>
+                    <option selected value="">Choose...</option>
                     <option value="1">1 (Strongly Disagree)</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -144,7 +142,7 @@
             <div class="form-group col-md-4">
                 <label for="question6">On a scale of 1-5</label>
                 <select id="question6" class="form-control">
-                    <option selected>Choose...</option>
+                    <option selected value="">Choose...</option>
                     <option value="1">1 (Strongly Disagree)</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -158,7 +156,7 @@
             <div class="form-group col-md-4">
                 <label for="question7">On a scale of 1-5</label>
                 <select id="question7" class="form-control">
-                    <option selected>Choose...</option>
+                    <option selected value="">Choose...</option>
                     <option value="1">1 (Strongly Disagree)</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -172,7 +170,7 @@
             <div class="form-group col-md-4">
                 <label for="question8">On a scale of 1-5</label>
                 <select id="question8" class="form-control">
-                    <option selected>Choose...</option>
+                    <option selected value="">Choose...</option>
                     <option value="1">1 (Strongly Disagree)</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -186,7 +184,7 @@
             <div class="form-group col-md-4">
                 <label for="question9">On a scale of 1-5</label>
                 <select id="question9" class="form-control">
-                    <option selected>Choose...</option>
+                    <option selected value="">Choose...</option>
                     <option value="1">1 (Strongly Disagree)</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -200,7 +198,7 @@
             <div class="form-group col-md-4">
                 <label for="question">On a scale of 1-5</label>
                 <select id="question10" class="form-control">
-                    <option selected>Choose...</option>
+                    <option selected value="">Choose...</option>
                     <option value="1">1 (Strongly Disagree)</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -262,6 +260,19 @@
                     $("#question10").val()
                 ]
             };
+
+            // checking if the survey questions are all answered
+            for(var i = 0; i < newEntry.scores.length; i++){
+                if (newEntry.scores[i] === "") {
+                   var allAnswered = false;
+                };
+            };
+
+            // validating if everything is filled out
+            if (newEntry.name.length < 1 || newEntry.picture.length < 1 || allAnswered === false) {
+                alert("Please make sure you answer all of the questions!");
+            } else {
+                
             // clears the survey
             $("#name").val(""),
             $("#pictureUrl").val(""),
@@ -276,23 +287,15 @@
             $("#question9").val(""),
             $("#question10").val("")
 
-            if (newEntry.name.length < 1 || newEntry.picture.length < 1 || newEntry.scores[i]=="Choose...") {
-                alert("Please answer all the questions!");
+            $.post("/api/friends", newEntry,
+                function (data) {
+                    $("#matchedName").text(data.matchedName);
+                    $("#matchedPic").attr("src", data.matchedPic);
 
-            } else {
-
-                console.log(newEntry);
-                $.post("/api/friends", newEntry,
-                    function (data) {
-                        $("#matchedName").text(data.matchedName);
-                        $("#matchedPic").attr("src", data.matchedPic);
-
-                        $("#results").modal("toggle");
-                    });
+                    $("#results").modal("toggle");
+                });
             }
         });
-
-
 
     </script>
 </body>
