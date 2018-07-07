@@ -32,7 +32,7 @@ module.exports = function(app) {
         if (difference < comparison) {
             comparison = difference;
             matchedName = friendData[i].name;
-            matchedPic = friendData[i].photo;
+            matchedPic = friendData[i].photo.replace("http://", "https://");
         }
         }
 
